@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdaptEdu - Умное обучение</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-graduation-cap"></i> AdaptEdu</h1>
+        </header>
+
+        <div class="progress-section">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+                <span id="progress-text">0% изучено</span>
+            </div>
+            <div class="stats">
+                <span><i class="fas fa-star"></i> <span id="points">0</span> очков</span>
+                <span><i class="fas fa-trophy"></i> <span id="achievements">0/5</span></span>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="🔍 Поиск...">
+        </div>
+
+        <div class="buttons">
+            <button id="beginner"><i class="fas fa-seedling"></i> Новичок</button>
+            <button id="intermediate"><i class="fas fa-rocket"></i> Средний</button>
+            <button id="advanced"><i class="fas fa-brain"></i> Продвинутый</button>
+            <button id="test-btn"><i class="fas fa-question-circle"></i> Тест</button>
+        </div>
+
+        <div id="materials" class="materials"></div>
+
+        <div id="achievements-popup" class="achievement-popup hidden">
+            <h3><i class="fas fa-trophy"></i> <span id="achievement-title"></span></h3>
+            <p id="achievement-desc"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
