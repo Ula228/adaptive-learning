@@ -1,474 +1,710 @@
-// База материалов
-const materials = {
-    beginner: [
-        { 
-            title: "Основы арифметики", 
-            type: "📚 Статья", 
-            link: "https://ru.khanacademy.org/math/cc-1st-grade-math",
-            points: 10,
-            tags: ["математика", "начальный"]
-        },
-        { 
-            title: "HTML и CSS для начинающих", 
-            type: "🎥 Видеокурс", 
-            link: "https://youtu.be/DOEtVdkKwcU",
-            points: 15,
-            tags: ["программирование", "веб"]
-        },
-        { 
-            title: "Физика: механика", 
-            type: "📖 Учебник", 
-            link: "https://physbook.ru/index.php/С.В._Громов,_Н.А._Родина_Физика_7",
-            points: 20,
-            tags: ["физика", "наука"]
-        },
-        { 
-            title: "Английский: базовые фразы", 
-            type: "📱 Приложение", 
-            link: "https://www.duolingo.com",
-            points: 10,
-            tags: ["языки", "начальный"]
-        },
-        { 
-            title: "Как работает интернет", 
-            type: "📊 Инфографика", 
-            link: "https://habr.com/ru/post/310460/",
-            points: 15,
-            tags: ["технологии"]
-        }
-    ],
-    intermediate: [
-        { 
-            title: "Алгебра: уравнения", 
-            type: "📚 Учебник", 
-            link: "https://ru.khanacademy.org/math/algebra",
-            points: 20,
-            tags: ["математика"]
-        },
-        { 
-            title: "Python: функции и классы", 
-            type: "🎥 Видео", 
-            link: "https://youtu.be/Ej_02ICOIgs",
-            points: 25,
-            tags: ["программирование"]
-        },
-        { 
-            title: "Химия: основы", 
-            type: "📖 Курс", 
-            link: "https://stepik.org/course/551/promo",
-            points: 20,
-            tags: ["наука"]
-        },
-        { 
-            title: "Как писать эссе", 
-            type: "📄 Гайд", 
-            link: "https://4brain.ru/writing/",
-            points: 15,
-            tags: ["письмо"]
-        },
-        { 
-            title: "Электроника для начинающих", 
-            type: "🛠 Практикум", 
-            link: "https://alexgyver.ru/lessons/",
-            points: 30,
-            tags: ["техника"]
-        }
-    ],
-    advanced: [
-        { 
-            title: "Математический анализ", 
-            type: "📚 Курс MIT", 
-            link: "https://ocw.mit.edu/courses/mathematics/18-01sc-single-variable-calculus-fall-2010/",
-            points: 40,
-            tags: ["математика"]
-        },
-        { 
-            title: "Нейронные сети", 
-            type: "🎥 Лекция", 
-            link: "https://youtu.be/aircAruvnKk",
-            points: 50,
-            tags: ["искусственный интеллект"]
-        },
-        { 
-            title: "Квантовая физика", 
-            type: "📖 Книга", 
-            link: "https://arxiv.org/abs/quant-ph/0508125",
-            points: 45,
-            tags: ["наука"]
-        },
-        { 
-            title: "Продвинутый Python", 
-            type: "💻 Практика", 
-            link: "https://realpython.com/",
-            points: 35,
-            tags: ["программирование"]
-        },
-        { 
-            title: "Астрофизика за час", 
-            type: "🎧 Подкаст", 
-            link: "https://www.youtube.com/watch?v=un2nD7vQqY8",
-            points: 30,
-            tags: ["наука", "космос"]
-        }
-    ]
+// Конфигурация
+const CONFIG = {
+    initialLevel: 1,
+    xpPerTest: 100,
+    xpPerMaterial: 50,
+    nextLevelFactor: 1.5,
+    maxLevel: 50
 };
+
+// Материалы для обучения
+const MATERIALS = [
+    { 
+        id: 1,
+        title: "Основы Python", 
+        topic: "programming", 
+        level: "beginner",
+        description: "Введение в программирование на Python. Изучите базовые концепции и синтаксис языка.",
+        icon: "fa-code"
+    },
+    { 
+        id: 2,
+        title: "Алгебра для начинающих", 
+        topic: "math", 
+        level: "beginner",
+        description: "Основные понятия алгебры: уравнения, неравенства, функции и графики.",
+        icon: "fa-square-root-alt"
+    },
+    { 
+        id: 3,
+        title: "Квантовая физика", 
+        topic: "science", 
+        level: "advanced",
+        description: "Введение в квантовую механику: принципы, уравнения и эксперименты.",
+        icon: "fa-atom"
+    },
+    { 
+        id: 4,
+        title: "JavaScript продвинутый", 
+        topic: "programming", 
+        level: "advanced",
+        description: "Сложные концепции JavaScript: замыкания, прототипы, асинхронность.",
+        icon: "fa-js"
+    },
+    { 
+        id: 5,
+        title: "Линейная алгебра", 
+        topic: "math", 
+        level: "intermediate",
+        description: "Матрицы, векторы, линейные преобразования и их применение.",
+        icon: "fa-vector-square"
+    },
+    { 
+        id: 6,
+        title: "Биология клетки", 
+        topic: "science", 
+        level: "intermediate",
+        description: "Строение и функции клетки, процессы клеточного деления.",
+        icon: "fa-microscope"
+    },
+    { 
+        id: 7,
+        title: "HTML и CSS", 
+        topic: "programming", 
+        level: "beginner",
+        description: "Основы веб-разработки: создание структуры и стилей сайта.",
+        icon: "fa-html5"
+    },
+    { 
+        id: 8,
+        title: "Статистика", 
+        topic: "math", 
+        level: "intermediate",
+        description: "Основы статистики: распределения, тесты, анализ данных.",
+        icon: "fa-chart-bar"
+    },
+    { 
+        id: 9,
+        title: "Основы алгоритмов", 
+        topic: "programming", 
+        level: "beginner",
+        description: "Изучение базовых алгоритмов и структур данных.",
+        icon: "fa-project-diagram"
+    },
+    { 
+        id: 10,
+        title: "Дифференциальные уравнения", 
+        topic: "math", 
+        level: "advanced",
+        description: "Решение обыкновенных дифференциальных уравнений.",
+        icon: "fa-infinity"
+    },
+    { 
+        id: 11,
+        title: "Органическая химия", 
+        topic: "science", 
+        level: "intermediate",
+        description: "Основные классы органических соединений и их свойства.",
+        icon: "fa-flask"
+    },
+    { 
+        id: 12,
+        title: "Базы данных SQL", 
+        topic: "programming", 
+        level: "intermediate",
+        description: "Проектирование баз данных и язык запросов SQL.",
+        icon: "fa-database"
+    },
+    { 
+        id: 13,
+        title: "Теория вероятностей", 
+        topic: "math", 
+        level: "intermediate",
+        description: "Основные понятия теории вероятностей и статистики.",
+        icon: "fa-dice"
+    },
+    { 
+        id: 14,
+        title: "Генетика", 
+        topic: "science", 
+        level: "advanced",
+        description: "Основные законы наследственности и изменчивости.",
+        icon: "fa-dna"
+    },
+    { 
+        id: 15,
+        title: "Веб-разработка", 
+        topic: "programming", 
+        level: "beginner",
+        description: "Создание современных веб-приложений.",
+        icon: "fa-globe"
+    },
+    { 
+        id: 16,
+        title: "Математический анализ", 
+        topic: "math", 
+        level: "advanced",
+        description: "Дифференциальное и интегральное исчисление.",
+        icon: "fa-calculator"
+    },
+    { 
+        id: 17,
+        title: "Английский для IT", 
+        topic: "language", 
+        level: "beginner",
+        description: "Основные термины и фразы для работы в IT-сфере.",
+        icon: "fa-language"
+    }
+];
 
 // Тесты
-const tests = {
-    beginner: [
-        {
-            question: "Чему равно 5 × 7?",
-            options: ["25", "35", "42", "30"],
-            answer: 1,
-            explanation: "Правильный ответ: 35 (5 × 7 = 35)"
-        },
-        {
-            question: "Какой тег HTML используется для создания ссылки?",
-            options: ["<link>", "<a>", "<href>", "<url>"],
-            answer: 1,
-            explanation: "Правильный ответ: <a> (anchor)"
-        },
-        {
-            question: "Что измеряется в ваттах?",
-            options: ["Сила тока", "Напряжение", "Мощность", "Сопротивление"],
-            answer: 2,
-            explanation: "Правильный ответ: Мощность"
-        }
-    ],
-    intermediate: [
-        {
-            question: "Решите уравнение: 2x + 5 = 15",
-            options: ["x = 5", "x = 7.5", "x = 10", "x = 12"],
-            answer: 0,
-            explanation: "Правильный ответ: x = 5 (2*5 + 5 = 15)"
-        },
-        {
-            question: "Что выведет код: print('Hello'[::-1])?",
-            options: ["Hello", "olleH", "Error", "H"],
-            answer: 1,
-            explanation: "Правильный ответ: olleH (разворот строки)"
-        },
-        {
-            question: "Формула воды:",
-            options: ["HO", "H2O", "H2O2", "H3O"],
-            answer: 1,
-            explanation: "Правильный ответ: H₂O"
-        }
-    ],
-    advanced: [
-        {
-            question: "Чему равен ∫(x²)dx от 0 до 3?",
-            options: ["6", "9", "12", "27"],
-            answer: 1,
-            explanation: "Правильный ответ: 9 (∫x²dx = x³/3 → 27/3 = 9)"
-        },
-        {
-            question: "Что такое backpropagation в нейросетях?",
-            options: [
-                "Метод оптимизации",
-                "Алгоритм обучения",
-                "Тип архитектуры",
-                "Функция активации"
-            ],
-            answer: 1,
-            explanation: "Правильный ответ: Алгоритм обучения (метод обратного распространения ошибки)"
-        },
-        {
-            question: "Какой принцип описывает уравнение Шрёдингера?",
-            options: [
-                "Квантовая суперпозиция",
-                "Теория относительности",
-                "Термодинамика",
-                "Электромагнетизм"
-            ],
-            answer: 0,
-            explanation: "Правильный ответ: Квантовая суперпозиция"
-        }
-    ]
-};
-
-// Достижения
-const achievements = {
-    first_step: {
-        title: "Первый шаг",
-        desc: "Просмотр первого материала",
-        earned: false
+const TESTS = [
+    {
+        id: 1,
+        title: "Основы Python",
+        topic: "programming",
+        level: "beginner",
+        description: "Проверьте свои знания базового синтаксиса Python",
+        questionsCount: 10,
+        icon: "fa-python"
     },
-    test_master: {
-        title: "Мастер тестов",
-        desc: "Правильно ответить на все вопросы теста",
-        earned: false
+    {
+        id: 2,
+        title: "Алгебра: начальный уровень",
+        topic: "math",
+        level: "beginner",
+        description: "Тест по основам алгебры для начинающих",
+        questionsCount: 8,
+        icon: "fa-square-root-alt"
     },
-    material_explorer: {
-        title: "Исследователь",
-        desc: "Изучить 5 материалов",
-        earned: false
+    {
+        id: 3,
+        title: "Продвинутый JavaScript",
+        topic: "programming",
+        level: "advanced",
+        description: "Сложные концепции JavaScript",
+        questionsCount: 15,
+        icon: "fa-js"
     },
-    bookworm: {
-        title: "Книжный червь",
-        desc: "Прочитать 10 материалов",
-        earned: false
-    },
-    genius: {
-        title: "Гений",
-        desc: "Набрать 200 очков",
-        earned: false
+    {
+        id: 4,
+        title: "Квантовая физика",
+        topic: "science",
+        level: "advanced",
+        description: "Тест по основам квантовой механики",
+        questionsCount: 12,
+        icon: "fa-atom"
     }
-};
+];
 
 // Состояние приложения
-let state = {
-    points: 0,
-    materialsViewed: 0,
+const state = {
     currentLevel: 'beginner',
-    darkMode: false
+    currentTopic: 'all',
+    progress: 0,
+    darkMode: false,
+    xp: 0,
+    level: CONFIG.initialLevel,
+    nextLevelXp: 1000,
+    studiedMaterials: [],
+    chatHistory: []
 };
 
-// Элементы DOM
-const materialsContainer = document.getElementById('materials');
-const progressBar = document.getElementById('progress-bar');
-const progressText = document.getElementById('progress-text');
-const pointsElement = document.getElementById('points');
-const achievementsElement = document.getElementById('achievements');
-const achievementPopup = document.getElementById('achievements-popup');
-const achievementTitle = document.getElementById('achievement-title');
-const achievementDesc = document.getElementById('achievement-desc');
-
-// Инициализация
-function init() {
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', () => {
     loadState();
-    renderMaterials(state.currentLevel);
+    initChart();
     setupEventListeners();
+    renderMaterials();
+    renderTests();
     updateUI();
-}
+});
 
-// Загрузка состояния из localStorage
+// Загрузка состояния
 function loadState() {
-    const savedState = localStorage.getItem('appState');
-    if (savedState) {
-        state = JSON.parse(savedState);
+    const saved = localStorage.getItem('learning-app-state');
+    if (saved) {
+        Object.assign(state, JSON.parse(saved));
         if (state.darkMode) {
-            document.body.classList.add('dark-mode');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i> Светлая тема';
         }
     }
 }
 
-// Сохранение состояния в localStorage
+// Сохранение состояния
 function saveState() {
-    localStorage.setItem('appState', JSON.stringify(state));
-}
-
-// Обновление интерфейса
-function updateUI() {
-    progressBar.style.width = `${calculateProgress()}%`;
-    progressText.textContent = `${calculateProgress()}% изучено`;
-    pointsElement.textContent = state.points;
-    
-    const earnedAchievements = Object.values(achievements).filter(a => a.earned).length;
-    achievementsElement.textContent = `${earnedAchievements}/5`;
-}
-
-// Расчет прогресса
-function calculateProgress() {
-    const totalMaterials = Object.values(materials).reduce((acc, level) => acc + level.length, 0);
-    return Math.min(Math.floor((state.materialsViewed / totalMaterials) * 100), 100);
-}
-
-// Отображение материалов
-function renderMaterials(level) {
-    materialsContainer.innerHTML = '';
-    state.currentLevel = level;
-    
-    materials[level].forEach(material => {
-        const card = document.createElement('div');
-        card.className = 'material-card';
-        card.innerHTML = `
-            <h3>${material.title}</h3>
-            <p>${material.type}</p>
-            <a href="${material.link}" target="_blank">Открыть</a>
-            <span class="material-points">${material.points} очков</span>
-        `;
-        
-        card.addEventListener('click', () => {
-            addPoints(material.points);
-            trackMaterialViewed();
-            checkAchievement('first_step');
-            if (state.materialsViewed >= 5) checkAchievement('material_explorer');
-            if (state.materialsViewed >= 10) checkAchievement('bookworm');
-            if (state.points >= 200) checkAchievement('genius');
-        });
-        
-        materialsContainer.appendChild(card);
-    });
-    
-    saveState();
-    updateUI();
-}
-
-// Отображение теста
-function renderTest(level) {
-    materialsContainer.innerHTML = '';
-    const test = tests[level];
-    
-    let html = `
-        <div class="test-card">
-            <h2>Тест: ${level.toUpperCase()}</h2>
-            <div class="test-progress">Вопрос 1 из ${test.length}</div>
-    `;
-    
-    test.forEach((question, index) => {
-        html += `
-            <div class="question" id="q${index}" ${index > 0 ? 'style="display:none"' : ''}>
-                <p>${index + 1}. ${question.question}</p>
-                ${question.options.map((option, i) => `
-                    <label class="test-option">
-                        <input type="radio" name="q${index}" value="${i}">
-                        ${option}
-                    </label>
-                `).join('')}
-                ${index === test.length - 1 ? 
-                    '<button id="submit-test">Завершить</button>' : 
-                    '<button class="next-question">Далее</button>'}
-                <div class="explanation hidden"></div>
-            </div>
-        `;
-    });
-    
-    html += `</div>`;
-    materialsContainer.innerHTML = html;
-
-    // Обработчики для теста
-    let currentQuestion = 0;
-    const questions = document.querySelectorAll('.question');
-    const nextButtons = document.querySelectorAll('.next-question');
-    
-    nextButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            questions[currentQuestion].style.display = 'none';
-            currentQuestion++;
-            questions[currentQuestion].style.display = 'block';
-            document.querySelector('.test-progress').textContent = 
-                `Вопрос ${currentQuestion + 1} из ${test.length}`;
-        });
-    });
-    
-    document.getElementById('submit-test')?.addEventListener('click', () => {
-        checkTestAnswers(level);
-    });
-}
-
-// Проверка ответов теста
-function checkTestAnswers(level) {
-    const test = tests[level];
-    let score = 0;
-    let resultsHtml = '<div class="test-results"><h3>Результаты теста</h3>';
-    
-    test.forEach((q, i) => {
-        const selected = document.querySelector(`input[name="q${i}"]:checked`);
-        const isCorrect = selected && parseInt(selected.value) === q.answer;
-        if (isCorrect) score++;
-        
-        resultsHtml += `
-            <div class="question-result ${isCorrect ? 'correct' : 'wrong'}">
-                <p><strong>Вопрос ${i + 1}:</strong> ${q.question}</p>
-                <p>Ваш ответ: ${selected ? q.options[selected.value] : 'Нет ответа'}</p>
-                <p class="explanation">${q.explanation}</p>
-            </div>
-        `;
-    });
-    
-    resultsHtml += `
-        <p class="score">Вы ответили правильно на ${score} из ${test.length}</p>
-        <button id="back-to-materials">К материалам</button>
-        </div>
-    `;
-    
-    materialsContainer.innerHTML = resultsHtml;
-    
-    document.getElementById('back-to-materials').addEventListener('click', () => {
-        renderMaterials(level);
-    });
-    
-    if (score === test.length) {
-        addPoints(50);
-        checkAchievement('test_master');
-    }
-}
-
-// Добавление очков
-function addPoints(amount) {
-    state.points += amount;
-    saveState();
-    updateUI();
-}
-
-// Отслеживание просмотренных материалов
-function trackMaterialViewed() {
-    state.materialsViewed++;
-    saveState();
-    updateUI();
-}
-
-// Проверка достижений
-function checkAchievement(achievementId) {
-    if (!achievements[achievementId].earned) {
-        achievements[achievementId].earned = true;
-        showAchievementPopup(achievements[achievementId]);
-        saveState();
-        updateUI();
-    }
-}
-
-// Показ попапа достижения
-function showAchievementPopup(achievement) {
-    achievementTitle.textContent = achievement.title;
-    achievementDesc.textContent = achievement.desc;
-    achievementPopup.classList.remove('hidden');
-    achievementPopup.classList.add('show');
-    
-    setTimeout(() => {
-        achievementPopup.classList.remove('show');
-        setTimeout(() => achievementPopup.classList.add('hidden'), 300);
-    }, 3000);
-}
-
-// Переключение темы
-function toggleDarkMode() {
-    state.darkMode = !state.darkMode;
-    document.body.classList.toggle('dark-mode');
-    saveState();
-}
-
-// Поиск материалов
-function setupSearch() {
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.material-card');
-        
-        cards.forEach(card => {
-            const title = card.querySelector('h3').textContent.toLowerCase();
-            card.style.display = title.includes(searchTerm) ? 'block' : 'none';
-        });
-    });
+    localStorage.setItem('learning-app-state', JSON.stringify(state));
 }
 
 // Настройка обработчиков событий
 function setupEventListeners() {
+    // Переключение темы
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    
     // Кнопки уровней
-    document.getElementById('beginner').addEventListener('click', () => renderMaterials('beginner'));
-    document.getElementById('intermediate').addEventListener('click', () => renderMaterials('intermediate'));
-    document.getElementById('advanced').addEventListener('click', () => renderMaterials('advanced'));
+    document.getElementById('beginner').addEventListener('click', () => setLevel('beginner'));
+    document.getElementById('intermediate').addEventListener('click', () => setLevel('intermediate'));
+    document.getElementById('advanced').addEventListener('click', () => setLevel('advanced'));
     
-    // Кнопка теста
-    document.getElementById('test-btn').addEventListener('click', () => renderTest(state.currentLevel));
-    
-    // Кнопка темы
-    document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode);
+    // Фильтры
+    document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.addEventListener('click', () => setFilter(btn.dataset.topic));
+    });
     
     // Поиск
-    setupSearch();
+    document.getElementById('search-btn').addEventListener('click', searchMaterials);
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchMaterials();
+    });
+    
+    // AI-чат
+    document.getElementById('ask-ai').addEventListener('click', askAI);
+    document.getElementById('ai-question').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') askAI();
+    });
 }
 
-// Запуск приложения
-document.addEventListener('DOMContentLoaded', init);
+// Переключение темы
+function toggleTheme() {
+    state.darkMode = !state.darkMode;
+    document.documentElement.toggleAttribute('data-theme');
+    const icon = state.darkMode ? 'sun' : 'moon';
+    document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-${icon}"></i> ${state.darkMode ? 'Светлая' : 'Темная'} тема`;
+    saveState();
+}
+
+// Установка уровня
+function setLevel(level) {
+    state.currentLevel = level;
+    renderMaterials();
+    renderTests();
+    updateUI();
+    saveState();
+}
+
+// Установка фильтра
+function setFilter(topic) {
+    state.currentTopic = topic;
+    renderMaterials();
+    renderTests();
+    saveState();
+}
+
+// Поиск материалов
+function searchMaterials() {
+    const query = document.getElementById('search-input').value.trim().toLowerCase();
+    renderMaterials(query);
+}
+
+// Рендер материалов
+function renderMaterials(searchQuery = '') {
+    const container = document.getElementById('materials');
+    container.innerHTML = '';
+
+    const filtered = MATERIALS.filter(material => {
+        const matchesTopic = state.currentTopic === 'all' || material.topic === state.currentTopic;
+        const matchesLevel = material.level === state.currentLevel;
+        const matchesSearch = searchQuery === '' || 
+            material.title.toLowerCase().includes(searchQuery) || 
+            material.description.toLowerCase().includes(searchQuery);
+        
+        return matchesTopic && matchesLevel && matchesSearch;
+    });
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><p>Материалы не найдены</p></div>';
+        return;
+    }
+
+    filtered.forEach(material => {
+        const isStudied = state.studiedMaterials.includes(material.id);
+        const card = document.createElement('div');
+        card.className = 'material-card';
+        card.innerHTML = `
+            <div class="material-header">
+                <i class="fas ${material.icon} material-icon"></i>
+                <h3 class="material-title">${material.title}</h3>
+            </div>
+            <p class="material-description">${material.description}</p>
+            <div class="material-meta">
+                <span class="material-topic">${getTopicName(material.topic)}</span>
+                <span class="material-level ${material.level}">${getLevelName(material.level)}</span>
+            </div>
+            <button class="study-btn ${isStudied ? 'studied' : ''}" data-id="${material.id}">
+                <i class="fas ${isStudied ? 'fa-check' : 'fa-book'}"></i>
+                ${isStudied ? 'Изучено' : 'Изучить'}
+            </button>
+        `;
+        container.appendChild(card);
+    });
+
+    document.querySelectorAll('.study-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const materialId = parseInt(btn.dataset.id);
+            toggleMaterialStudy(materialId);
+        });
+    });
+}
+
+// Переключение состояния изучения материала
+function toggleMaterialStudy(materialId) {
+    const material = MATERIALS.find(m => m.id === materialId);
+    if (!material) return;
+    
+    const index = state.studiedMaterials.indexOf(materialId);
+    if (index === -1) {
+        state.studiedMaterials.push(materialId);
+        addXp(CONFIG.xpPerMaterial);
+        showNotification(`Материал "${material.title}" изучен!`, 'success');
+    } else {
+        state.studiedMaterials.splice(index, 1);
+        showNotification(`Материал "${material.title}" удален из изученных`, 'info');
+    }
+    
+    updateProgress();
+    renderMaterials();
+    saveState();
+}
+
+// Рендер тестов
+function renderTests() {
+    const container = document.getElementById('tests');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const filtered = TESTS.filter(test => {
+        return (state.currentTopic === 'all' || test.topic === state.currentTopic) &&
+               (test.level === state.currentLevel);
+    });
+    
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-question-circle"></i><p>Тесты не найдены</p></div>';
+        return;
+    }
+    
+    filtered.forEach(test => {
+        const card = document.createElement('div');
+        card.className = 'test-card';
+        card.innerHTML = `
+            <div class="test-title">
+                <i class="fab ${test.icon} test-icon"></i>
+                <span>${test.title}</span>
+            </div>
+            <p class="test-description">${test.description}</p>
+            <div class="test-meta">
+                <span class="test-difficulty ${test.level}">${getLevelName(test.level)}</span>
+                <span class="test-questions">${test.questionsCount} вопросов</span>
+            </div>
+            <button class="start-test-btn" data-test-id="${test.id}">
+                <i class="fas fa-play"></i>
+                Начать тест
+            </button>
+        `;
+        container.appendChild(card);
+    });
+    
+    document.querySelectorAll('.start-test-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const testId = parseInt(btn.dataset.testId);
+            startTest(testId);
+        });
+    });
+}
+
+// Запуск теста
+function startTest(testId) {
+    const test = TESTS.find(t => t.id === testId);
+    if (!test) return;
+    
+    showTestModal(test);
+    addXp(10);
+    showNotification(`Тест "${test.title}" начат!`, 'info');
+}
+
+// Обновление прогресса
+function updateProgress() {
+    const totalMaterials = MATERIALS.filter(m => m.level === state.currentLevel).length;
+    const studiedCount = MATERIALS.filter(m => 
+        m.level === state.currentLevel && 
+        state.studiedMaterials.includes(m.id)
+    ).length;
+    
+    state.progress = totalMaterials > 0 ? Math.round((studiedCount / totalMaterials) * 100) : 0;
+    updateUI();
+    updateChart();
+}
+
+// Добавление XP
+function addXp(amount) {
+    state.xp += amount;
+    if (state.xp >= state.nextLevelXp && state.level < CONFIG.maxLevel) {
+        state.level++;
+        state.xp -= state.nextLevelXp;
+        state.nextLevelXp = Math.floor(state.nextLevelXp * CONFIG.nextLevelFactor);
+        showNotification(`🎉 Уровень ${state.level}!`, 'success');
+    }
+    updateUI();
+    saveState();
+}
+
+// Обновление интерфейса
+function updateUI() {
+    document.getElementById('progress-value').textContent = `${state.progress}%`;
+    document.getElementById('progress-fill').style.width = `${state.progress}%`;
+    
+    document.getElementById('level-value').textContent = state.level;
+    document.getElementById('current-xp').textContent = state.xp;
+    document.getElementById('max-xp').textContent = state.nextLevelXp;
+    
+    const xpPercent = Math.min(100, (state.xp / state.nextLevelXp) * 100);
+    document.getElementById('xp-fill').style.width = `${xpPercent}%`;
+    
+    document.querySelectorAll('.difficulty-tab').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(state.currentLevel).classList.add('active');
+    
+    document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.filter-tab[data-topic="${state.currentTopic}"]`).classList.add('active');
+}
+
+// Показать уведомление
+function showNotification(message, type) {
+    const notification = document.getElementById('notification');
+    notification.className = `notification ${type} show`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+        ${message}
+    `;
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+// AI-чат
+function askAI() {
+    const input = document.getElementById('ai-question');
+    const question = input.value.trim();
+    if (!question) return;
+    
+    addMessage(question, 'user');
+    input.value = '';
+    
+    setTimeout(() => {
+        const responses = [
+            `По вашему запросу "${question}" рекомендую материалы для ${state.currentLevel} уровня.`,
+            "Интересный вопрос! Проверьте раздел 'Программирование' в фильтрах.",
+            "Я нашел несколько подходящих материалов по вашей теме."
+        ];
+        const response = responses[Math.floor(Math.random() * responses.length)];
+        addMessage(response, 'ai');
+    }, 1000);
+}
+
+function addMessage(text, sender) {
+    const chat = document.getElementById('chat-messages');
+    const message = document.createElement('div');
+    message.className = `message ${sender}`;
+    message.innerHTML = `<strong>${sender === 'user' ? 'Вы' : 'AI'}:</strong> ${text}`;
+    chat.appendChild(message);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// График прогресса
+let progressChart;
+
+function initChart() {
+    const ctx = document.getElementById('progress-chart').getContext('2d');
+    progressChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: generateWeekDates(),
+            datasets: [{
+                label: 'Прогресс обучения',
+                data: generateProgressData(),
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+}
+
+function generateWeekDates() {
+    const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const today = new Date();
+    return days.map((_, i) => {
+        const date = new Date(today);
+        date.setDate(today.getDate() - 6 + i);
+        return `${days[date.getDay()]} ${date.getDate()}`;
+    });
+}
+
+function generateProgressData() {
+    const base = state.progress || 10;
+    return [
+        Math.max(5, base - 15),
+        Math.max(10, base - 10),
+        Math.max(15, base - 5),
+        base,
+        Math.min(95, base + 5),
+        Math.min(100, base + 15),
+        Math.min(100, base + 25)
+    ];
+}
+
+function updateChart() {
+    if (progressChart) {
+        progressChart.data.datasets[0].data = generateProgressData();
+        progressChart.update();
+    }
+}
+
+// Вспомогательные функции
+function getTopicName(topic) {
+    const topics = {
+        'math': 'Математика',
+        'programming': 'Программирование',
+        'science': 'Наука',
+        'language': 'Языки'
+    };
+    return topics[topic] || topic;
+}
+
+function getLevelName(level) {
+    const levels = {
+        'beginner': 'Новичок',
+        'intermediate': 'Средний',
+        'advanced': 'Продвинутый'
+    };
+    return levels[level] || level;
+}
+
+// Модальное окно теста
+function showTestModal(test) {
+    const modal = document.getElementById('test-modal');
+    const title = document.getElementById('test-modal-title');
+    const questionsContainer = document.getElementById('test-questions');
+    const currentQuestion = document.getElementById('current-question');
+    const totalQuestions = document.getElementById('total-questions');
+    const nextBtn = document.getElementById('next-question-btn');
+    
+    title.textContent = test.title;
+    totalQuestions.textContent = test.questionsCount;
+    
+    const questions = generateTestQuestions(test);
+    let currentQuestionIndex = 0;
+    let score = 0;
+    
+    function displayQuestion() {
+        questionsContainer.innerHTML = '';
+        currentQuestion.textContent = currentQuestionIndex + 1;
+        
+        const question = questions[currentQuestionIndex];
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question-container';
+        questionElement.innerHTML = `
+            <div class="question-text">${question.text}</div>
+            <div class="answers-container"></div>
+        `;
+        
+        const answersContainer = questionElement.querySelector('.answers-container');
+        question.answers.forEach((answer, index) => {
+            const answerElement = document.createElement('button');
+            answerElement.className = 'answer-option';
+            answerElement.textContent = answer.text;
+            answerElement.dataset.index = index;
+            answerElement.addEventListener('click', () => selectAnswer(answerElement, index));
+            answersContainer.appendChild(answerElement);
+        });
+        
+        questionsContainer.appendChild(questionElement);
+        nextBtn.disabled = true;
+        
+        if (currentQuestionIndex === questions.length - 1) {
+            nextBtn.innerHTML = '<i class="fas fa-check"></i> Завершить тест';
+        } else {
+            nextBtn.innerHTML = 'Следующий вопрос <i class="fas fa-arrow-right"></i>';
+        }
+    }
+    
+    function selectAnswer(answerElement, answerIndex) {
+        document.querySelectorAll('.answer-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        answerElement.classList.add('selected');
+        nextBtn.disabled = false;
+    }
+    
+    function handleNextQuestion() {
+        const selectedAnswer = document.querySelector('.answer-option.selected');
+        if (selectedAnswer) {
+            const answerIndex = parseInt(selectedAnswer.dataset.index);
+            if (questions[currentQuestionIndex].answers[answerIndex].correct) {
+                score++;
+            }
+        }
+        
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+        } else {
+            finishTest(score, questions.length);
+        }
+    }
+    
+    nextBtn.addEventListener('click', handleNextQuestion);
+    document.getElementById('close-test-modal').addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+    
+    displayQuestion();
+    modal.classList.add('show');
+}
+
+function generateTestQuestions(test) {
+    const questions = [];
+    for (let i = 1; i <= test.questionsCount; i++) {
+        const correctAnswer = Math.floor(Math.random() * 4);
+        const answers = [];
+        
+        for (let j = 0; j < 4; j++) {
+            answers.push({
+                text: `Вариант ответа ${j + 1} для вопроса ${i}`,
+                correct: j === correctAnswer
+            });
+        }
+        
+        questions.push({
+            text: `Пример вопроса ${i} по теме "${test.title}"?`,
+            answers: answers
+        });
+    }
+    return questions;
+}
+
+function finishTest(score, totalQuestions) {
+    const modal = document.getElementById('test-modal');
+    modal.classList.remove('show');
+    
+    const percentage = Math.round((score / totalQuestions) * 100);
+    let message, type;
+    
+    if (percentage >= 80) {
+        message = `Отлично! Вы набрали ${score} из ${totalQuestions} (${percentage}%)`;
+        type = 'success';
+        addXp(50);
+    } else if (percentage >= 50) {
+        message = `Хорошо! Вы набрали ${score} из ${totalQuestions} (${percentage}%)`;
+        type = 'info';
+        addXp(30);
+    } else {
+        message = `Попробуйте еще раз! Вы набрали ${score} из ${totalQuestions} (${percentage}%)`;
+        type = 'error';
+        addXp(10);
+    }
+    
+    showNotification(message, type);
+}
