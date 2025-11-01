@@ -1,164 +1,80 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Умное обучение</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Умное обучение</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <div class="header-content">
-                <h1 class="logo">
-                    <i class="fas fa-graduation-cap logo-icon"></i>
-                    <span>Умное обучение</span>
-                </h1>
-                <div class="header-controls">
-                    <button id="theme-toggle" class="theme-btn">
-                        <i class="fas fa-moon theme-icon"></i>
-                        <span class="theme-text">Темная тема</span>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="progress-container">
-                <div class="progress-info">
-                    <span class="progress-text">Прогресс обучения</span>
-                    <span id="progress-value" class="progress-percent">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
-                <div id="level-display" class="level-display">
-                    <div class="level-text">Уровень <span id="level-value">1</span></div>
-                    <div class="xp-bar">
-                        <div id="xp-fill" class="xp-fill"></div>
-                    </div>
-                    <div class="xp-text"><span id="current-xp">0</span>/<span id="max-xp">1000</span> XP</div>
-                </div>
-            </div>
-        </header>
+  <header>
+    <h1>🎓 Умное обучение</h1>
+    <button id="theme-toggle">Светлая тема</button>
+  </header>
 
-        <main class="app-main">
-            <section class="control-panel">
-                <div class="search-box">
-                    <input type="text" id="search-input" class="search-input" placeholder="Поиск материалов...">
-                    <button id="search-btn" class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                
-                <div class="difficulty-tabs">
-                    <div class="tabs-header">Уровень сложности:</div>
-                    <div class="tabs-container">
-                        <button id="beginner" class="difficulty-tab active">
-                            <i class="fas fa-star tab-icon"></i>
-                            <span class="tab-text">Новичок</span>
-                        </button>
-                        <button id="intermediate" class="difficulty-tab">
-                            <i class="fas fa-rocket tab-icon"></i>
-                            <span class="tab-text">Средний</span>
-                        </button>
-                        <button id="advanced" class="difficulty-tab">
-                            <i class="fas fa-brain tab-icon"></i>
-                            <span class="tab-text">Продвинутый</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="filter-tabs">
-                    <div class="tabs-header">Фильтр по темам:</div>
-                    <div class="tabs-container">
-                        <button class="filter-tab active" data-topic="all">
-                            <span class="tab-text">Все темы</span>
-                        </button>
-                        <button class="filter-tab" data-topic="programming">
-                            <span class="tab-text">Программирование</span>
-                        </button>
-                        <button class="filter-tab" data-topic="math">
-                            <span class="tab-text">Математика</span>
-                        </button>
-                        <button class="filter-tab" data-topic="science">
-                            <span class="tab-text">Наука</span>
-                        </button>
-                        <button class="filter-tab" data-topic="language">
-                            <span class="tab-text">Языки</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
+  <main>
+    <section id="progress-section">
+      <p>Прогресс обучения <span id="progress-value">33%</span></p>
+      <div class="progress-bar">
+        <div id="progress-fill" style="width:33%"></div>
+      </div>
 
-            <section class="materials-section">
-                <h2 class="section-title">
-                    <i class="fas fa-book-open section-icon"></i>
-                    <span>Доступные материалы</span>
-                </h2>
-                <div id="materials" class="materials-grid"></div>
-            </section>
+      <p>Уровень 1</p>
+      <div class="xp-bar">
+        <div id="xp-fill" style="width:10%"></div>
+      </div>
+      <small id="xp-text">100/1000 XP</small>
+    </section>
 
-            <section class="tests-section">
-                <h2 class="section-title">
-                    <i class="fas fa-question-circle section-icon"></i>
-                    <span>Тесты и проверка знаний</span>
-                </h2>
-                <div id="tests" class="tests-grid"></div>
-            </section>
+    <section id="search-filter">
+      <input type="text" id="search" placeholder="Поиск материалов...">
 
-            <section class="features-section">
-                <div class="feature-card chart-container">
-                    <div class="card-header">
-                        <i class="fas fa-chart-line card-icon"></i>
-                        <h3 class="card-title">Ваш прогресс</h3>
-                    </div>
-                    <div class="card-content">
-                        <canvas id="progress-chart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="feature-card ai-assistant">
-                    <div class="card-header">
-                        <i class="fas fa-robot card-icon"></i>
-                        <h3 class="card-title">AI-Помощник</h3>
-                    </div>
-                    <div class="card-content">
-                        <div id="chat-messages" class="chat-messages"></div>
-                        <div class="chat-input">
-                            <input type="text" id="ai-question" class="ai-input" placeholder="Задайте вопрос...">
-                            <button id="ask-ai" class="ai-send-btn">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+      <div class="difficulty">
+        <button class="active">Новичок</button>
+        <button>Средний</button>
+        <button>Продвинутый</button>
+      </div>
 
-    <div id="test-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="test-modal-title"></h3>
-                <button id="close-test-modal" class="close-modal-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="test-questions" class="modal-body"></div>
-            <div class="modal-footer">
-                <div class="test-progress">
-                    Вопрос <span id="current-question">1</span> из <span id="total-questions">0</span>
-                </div>
-                <button id="next-question-btn" class="btn-primary">
-                    Следующий вопрос <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
+      <div class="topics">
+        <button class="active">Все темы</button>
+        <button>Программирование</button>
+        <button>Математика</button>
+        <button>Наука</button>
+        <button>Языки</button>
+      </div>
+    </section>
+
+    <section id="materials">
+      <h2>📚 Доступные материалы</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Основы Python</h3>
+          <p>Введение в программирование на Python.</p>
+          <button class="learn-btn">Изучить</button>
         </div>
-    </div>
 
-    <div id="notification" class="notification hidden"></div>
+        <div class="card">
+          <h3>Алгебра для начинающих</h3>
+          <p>Основные понятия алгебры: уравнения, функции и графики.</p>
+          <button class="learn-btn">Изучить</button>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
+        <div class="card">
+          <h3>HTML и CSS</h3>
+          <p>Создание сайтов, основы веб-разработки.</p>
+          <button class="learn-btn">Изучить</button>
+        </div>
+
+        <div class="card">
+          <h3>Основы алгоритмов</h3>
+          <p>Базовые алгоритмы и структуры данных.</p>
+          <button class="learn-btn">Изучить</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
