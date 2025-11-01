@@ -1,89 +1,83 @@
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f0f4f8;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f6fa;
   margin: 0;
-  padding: 0;
-  color: #222;
+  color: #333;
 }
 
 header {
-  background: #4a90e2;
+  background: #1f2937;
   color: white;
-  text-align: center;
-  padding: 20px 10px;
-}
-
-.subjects {
+  padding: 15px 20px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.subject-card {
+h1 {
+  font-size: 1.5rem;
+}
+
+main {
+  padding: 20px;
+}
+
+.progress-bar, .xp-bar {
+  background: #ddd;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#progress-fill {
+  background: #ec4899;
+  height: 100%;
+}
+
+#xp-fill {
+  background: #60a5fa;
+  height: 100%;
+}
+
+.difficulty button,
+.topics button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+button.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.card {
   background: white;
   border-radius: 10px;
-  padding: 20px;
-  width: 280px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 15px;
 }
 
-button {
-  background: #4a90e2;
+.card h3 {
+  margin-top: 0;
+}
+
+.learn-btn {
+  background: #2563eb;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 5px;
   cursor: pointer;
-}
-
-button:hover {
-  background: #357abd;
-}
-
-.progress {
-  margin: 40px auto;
-  width: 300px;
-  background: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Модальное окно */
-.modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.modal-content {
-  background: white;
-  color: black;
-  padding: 20px;
-  max-width: 800px;
-  width: 90%;
-  border-radius: 10px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.close-btn {
-  float: right;
-  cursor: pointer;
-  font-size: 1.5rem;
 }
