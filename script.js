@@ -1,4 +1,3 @@
-script.js
 // Конфигурация
 const CONFIG = {
     initialLevel: 1,
@@ -709,3 +708,4 @@ function finishTest(score, totalQuestions) {
     
     showNotification(message, type);
 }
+
