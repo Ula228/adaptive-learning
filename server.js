@@ -1,5 +1,3 @@
-server.js
-
 console.log('3000:', process.env.PORT);
 require('dotenv').config();
 const express = require('express');
@@ -48,3 +46,4 @@ app.get('/', (req, res) => {
 });
 app.listen(process.env.PORT, () => 
   console.log(`Сервер запущен на http://localhost:${process.env.PORT}`));
+
