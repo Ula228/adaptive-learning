@@ -1,3 +1,4 @@
+script.js
 document.getElementById('ask-btn').addEventListener('click', sendQuestion);
 
 async function sendQuestion() {
@@ -18,13 +19,4 @@ async function sendQuestion() {
   } catch (error) {
     addMessage("Ошибка соединения с сервером", 'error');
   }
-}
-
-function addMessage(text, sender) {
-  const chat = document.getElementById('chat');
-  const msg = document.createElement('div');
-  msg.className = `message ${sender}`;
-  msg.textContent = text;
-  chat.appendChild(msg);
-  chat.scrollTop = chat.scrollHeight;
 }
