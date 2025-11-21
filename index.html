@@ -136,6 +136,7 @@
         </main>
     </div>
 
+    <!-- Модальное окно для тестов -->
     <div id="test-modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,10 +157,30 @@
         </div>
     </div>
 
+    <!-- Модальное окно для материалов -->
+    <div id="material-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="material-modal-title"></h3>
+                <button id="close-material-modal" class="close-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="material-content" class="modal-body">
+                <!-- Контент материала будет здесь -->
+            </div>
+            <div class="modal-footer">
+                <button id="mark-studied-btn" class="btn-primary">
+                    <i class="fas fa-check"></i> Отметить как изученное
+                </button>
+                <button id="close-material-btn" class="btn-secondary">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <div id="notification" class="notification hidden"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
