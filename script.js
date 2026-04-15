@@ -627,6 +627,8 @@ function toggleTheme() {
 // Установка уровня
 function setLevel(level) {
     state.currentLevel = level;
+    document.querySelectorAll('.difficulty-tab').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(level).classList.add('active');
     renderMaterials();
     renderTests();
     updateUI();
@@ -636,6 +638,8 @@ function setLevel(level) {
 // Установка фильтра
 function setFilter(topic) {
     state.currentTopic = topic;
+    document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.filter-tab[data-topic="${topic}"]`).classList.add('active');
     renderMaterials();
     renderTests();
     saveState();
@@ -850,11 +854,7 @@ function updateUI() {
     const xpPercent = Math.min(100, (state.xp / state.nextLevelXp) * 100);
     document.getElementById('xp-fill').style.width = `${xpPercent}%`;
     
-    document.querySelectorAll('.difficulty-tab').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(state.currentLevel).classList.add('active');
-    
-    document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.filter-tab[data-topic="${state.currentTopic}"]`).classList.add('active');
+    // Активные классы уже установлены в setLevel и setFilter
 }
 
 // Показать уведомление
@@ -871,8 +871,8 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-// AI-чат
-function askAI() {
+// AI-чат (подключен к серверу)
+async function askAI() {
     const input = document.getElementById('ai-question');
     const question = input.value.trim();
     if (!question) return;
@@ -880,24 +880,55 @@ function askAI() {
     addMessage(question, 'user');
     input.value = '';
     
-    setTimeout(() => {
-        const responses = [
-            `По вашему запросу "${question}" рекомендую материалы для ${state.currentLevel} уровня.`,
-            "Интересный вопрос! Проверьте раздел 'Программирование' в фильтрах.",
-            "Я нашел несколько подходящих материалов по вашей теме."
-        ];
-        const response = responses[Math.floor(Math.random() * responses.length)];
-        addMessage(response, 'ai');
-    }, 1000);
+    // Показываем индикатор загрузки
+    const loadingMsg = addMessage('...', 'ai loading');
+    
+    try {
+        const response = await fetch('/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question })
+        });
+        
+        const data = await response.json();
+        
+        // Удаляем сообщение-загрузку
+        if (loadingMsg) loadingMsg.remove();
+        
+        if (data.answer) {
+            addMessage(data.answer, 'ai');
+        } else if (data.error) {
+            addMessage(`Ошибка: ${data.error}`, 'ai error');
+        } else {
+            addMessage('Извините, не могу ответить сейчас.', 'ai error');
+        }
+    } catch (error) {
+        console.error('Ошибка AI:', error);
+        if (loadingMsg) loadingMsg.remove();
+        addMessage('Ошибка соединения с сервером.', 'ai error');
+    }
 }
 
 function addMessage(text, sender) {
     const chat = document.getElementById('chat-messages');
     const message = document.createElement('div');
     message.className = `message ${sender}`;
-    message.innerHTML = `<strong>${sender === 'user' ? 'Вы' : 'AI'}:</strong> ${text}`;
+    
+    let displayText = text;
+    if (sender === 'user') {
+        displayText = `<strong>Вы:</strong> ${text}`;
+    } else if (sender === 'ai') {
+        displayText = `<strong>AI:</strong> ${text}`;
+    } else if (sender === 'ai loading') {
+        displayText = `<strong>AI:</strong> <em>${text}</em>`;
+    } else if (sender === 'ai error') {
+        displayText = `<strong>AI:</strong> <span style="color: var(--error-color);">${text}</span>`;
+    }
+    
+    message.innerHTML = displayText;
     chat.appendChild(message);
     chat.scrollTop = chat.scrollHeight;
+    return message;
 }
 
 // График прогресса
