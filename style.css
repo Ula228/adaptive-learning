@@ -609,6 +609,17 @@ body {
     margin-right: 20px;
 }
 
+/* Стили для сообщений AI */
+.message.ai.loading {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.message.ai.error {
+    color: var(--error-color);
+    background-color: rgba(239, 35, 60, 0.1);
+}
+
 /* Модальные окна */
 .modal {
     position: fixed;
