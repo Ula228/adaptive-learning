@@ -16,40 +16,36 @@ app.post('/ask', async (req, res) => {
     return res.status(400).json({ error: 'Вопрос не может быть пустым' });
   }
   if (!process.env.OPENAI_API_KEY) {
-    console.error('OPENAI_API_KEY не настроен');
-    return res.status(500).json({ error: 'Сервер не настроен для AI-запросов' });
+    console.error('GEMINI_API_KEY не настроен');
+    return res.status(500).json({ error: 'Сервер не настроен для AI-запросов. Проверьте .env файл.' });
   }
   try {
+    const GEMINI_API_KEY = process.env.OPENAI_API_KEY;
+    // 🔁 Можно менять на любую доступную модель:
+    const GEMINI_MODEL = "gemini-2.5-flash"; // или "gemma-3-1b-it"
+    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
     const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
+      GEMINI_URL,
       {
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "Ты — AI-помощник образовательной платформы «Умное обучение». Отвечай кратко, по делу, на русском языке. Помогай с учебными вопросами." },
-          { role: "user", content: question }
-        ],
-        max_tokens: 300,
-        temperature: 0.7
+        "contents": [{
+          "parts": [{"text": question}]
+        }],
+        "systemInstruction": {
+          "parts": [{"text": "Ты — AI-помощник образовательной платформы «Умное обучение». Отвечай кратко, по делу и на русском языке."}]
+        }
       },
       {
-        headers: {
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 15000
       }
     );
-    const answer = response.data.choices[0].message.content;
+
+    const answer = response.data.candidates[0].content.parts[0].text;
     res.json({ answer });
   } catch (error) {
-    console.error('Ошибка OpenAI:', error.response?.data || error.message);
-    if (error.code === 'ECONNABORTED') {
-      return res.status(504).json({ error: 'Превышено время ожидания ответа от AI' });
-    }
-    if (error.response?.status === 429) {
-      return res.status(429).json({ error: 'Превышен лимит запросов к AI. Попробуйте позже.' });
-    }
-    res.status(500).json({ error: 'Ошибка при обращении к AI-сервису' });
+    console.error('Ошибка Gemini API:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Ошибка при обращении к Gemini API. Проверьте ключ или попробуйте позже.' });
   }
 });
 
